@@ -172,28 +172,27 @@ class ImageDataGenerator(object):
     real-time data augmentation.
 
     # Arguments
-        featurewise_center: set input mean to 0 over the dataset.
-        samplewise_center: set each sample mean to 0.
-        featurewise_std_normalization: divide inputs by std of the dataset.
-        samplewise_std_normalization: divide each input by its std.
-        zca_whitening: apply ZCA whitening.
-        rotation_range: degrees (0 to 180).
-        width_shift_range: fraction of total width.
-        height_shift_range: fraction of total height.
-        shear_range: shear intensity (shear angle in radians).
+        featurewise_center: Boolean. set input mean to 0 over the dataset.
+        samplewise_center: Boolean. set each sample mean to 0.
+        featurewise_std_normalization: Boolean. divide inputs by std of the dataset.
+        samplewise_std_normalization: Boolean. divide each input by its std.
+        zca_whitening: Boolean. apply ZCA whitening.
+        rotation_range: Int. degrees (0 to 180).
+        width_shift_range: Float (fraction of total width). Range for random horizontal shifts.
+        height_shift_range: Float (fraction of total height). Range for random vertical shifts.
+        shear_range: Float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
         zoom_range: amount of zoom. if scalar z, zoom will be randomly picked
             in the range [1-z, 1+z]. A sequence of two can be passed instead
-            to select this range.
-        channel_shift_range: shift range for each channels.
-        fill_mode: points outside the boundaries are filled according to the
-            given mode ('constant', 'nearest', 'reflect' or 'wrap'). Default
-            is 'nearest'.
-        cval: value used for points outside the boundaries when fill_mode is
-            'constant'. Default is 0.
-        horizontal_flip: whether to randomly flip images horizontally.
-        vertical_flip: whether to randomly flip images vertically.
-        dim_ordering: 'th' or 'tf'. In 'th' mode, the channels dimension
-            (the depth) is at index 1, in 'tf' mode it is at index 3.
+            to select this range [lower, upper].
+        channel_shift_range: Float. Range for random channel shifts.
+        fill_mode: One of('constant', 'nearest', 'reflect' or 'wrap'). points outside the boundaries are filled according to the given mode.
+        cval: Float or Int. value used for points outside the boundaries when fill_mode is
+            'constant'.
+        horizontal_flip: Boolean. whether to randomly flip images horizontally.
+        vertical_flip: Boolean. whether to randomly flip images vertically.
+        dim_ordering: 'th' or 'tf'.
+            - 'th': (samples, channels, width, height)
+            - 'tf': (samples, width, height, channels)
     '''
     def __init__(self,
                  featurewise_center=False,
@@ -272,6 +271,18 @@ class ImageDataGenerator(object):
 
     def flow(self, X, y, batch_size=32, shuffle=False, seed=None,
              save_to_dir=None, save_prefix='', save_format='jpeg'):
+        ''' 
+        # Arguments
+            X: data.
+            y: labels.
+            batch_size: int (default: 32).
+            shuffle: boolean (defaut: False).
+            save_to_dir: None or str. This allows you to optimally specify a d
+irectory to which to save the augmented pictures being generated (useful for v
+isualizing what you are doing).
+            save_prefix: str. Prefix to use for filenames of saved pictures.
+            save_format: one of "png", jpeg".
+        '''
         assert len(X) == len(y)
         self.X = X
         self.y = y
@@ -410,10 +421,9 @@ class ImageDataGenerator(object):
 
         # Arguments
             X: Numpy array, the data to fit on.
-            augment: whether to fit on randomly augmented samples
-            rounds: if `augment`,
-                how many augmentation passes to do over the data
-            seed: random seed.
+            augment: Boolean (default: False). whether to fit on randomly augmented samples
+            rounds: int (default: 1). if `augment`, how many augmentation passes to do over the data
+            seed: int (default: 1). random seed.
         '''
         X = np.copy(X)
         if augment:

@@ -72,6 +72,7 @@ from keras.layers import normalization
 from keras.layers import advanced_activations
 from keras.layers import embeddings
 from keras.layers import wrappers
+from keras.preprocessing import image
 from keras import optimizers
 from keras import callbacks
 from keras import models
@@ -193,8 +194,16 @@ PAGES = [
         'page': 'layers/wrappers.md',
         'all_module_classes': [wrappers],
     },
-
-
+    {
+        'page': 'preprocessing/image.md',
+        'classes': [
+            image.ImageDataGenerator,
+        ],
+        'functions': [
+            image.ImageDataGenerator.fit,
+            image.ImageDataGenerator.flow,
+        ]
+    },
     {
         'page': 'optimizers.md',
         'all_module_classes': [optimizers],
@@ -392,6 +401,7 @@ for page_data in PAGES:
     for function in functions:
         subblocks = []
         signature = get_function_signature(function, method=False)
+        subblocks.append('<span style="float:right;">' + class_to_source_link(function) + '</span>')
         signature = signature.replace(function.__module__ + '.', '')
         subblocks.append('### ' + function.__name__ + '\n')
         subblocks.append(code_snippet(signature))
