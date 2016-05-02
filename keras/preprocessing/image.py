@@ -271,17 +271,16 @@ class ImageDataGenerator(object):
 
     def flow(self, X, y, batch_size=32, shuffle=False, seed=None,
              save_to_dir=None, save_prefix='', save_format='jpeg'):
-        ''' 
+        '''Yields python generators, for fitting models on data generated batch-by-batch - often flowed by model.fit_generator().
         # Arguments
-            X: data.
-            y: labels.
-            batch_size: int (default: 32).
-            shuffle: boolean (defaut: False).
-            save_to_dir: None or str. This allows you to optimally specify a d
-irectory to which to save the augmented pictures being generated (useful for v
-isualizing what you are doing).
-            save_prefix: str. Prefix to use for filenames of saved pictures.
-            save_format: one of "png", jpeg".
+            X: Numpy array. Data.
+            y: Numpy array. Labels.
+            batch_size: Int. Size of batch generators to be created.
+            shuffle: Boolean. Create random shuffle of training data indexes (before validation split, if validation split used in model.fit_generator() ).
+            seed: Int. Random seed.
+            save_to_dir: None or Str. This allows you to optimally specify a directory to which to save the augmented pictures being generated (useful for visualizing what you are doing).
+            save_prefix: Str. Prefix to use for filenames of saved pictures.
+            save_format: "png" or jpeg".
         '''
         assert len(X) == len(y)
         self.X = X
@@ -420,10 +419,10 @@ isualizing what you are doing).
         and zca_whitening.
 
         # Arguments
-            X: Numpy array, the data to fit on.
-            augment: Boolean (default: False). whether to fit on randomly augmented samples
-            rounds: int (default: 1). if `augment`, how many augmentation passes to do over the data
-            seed: int (default: 1). random seed.
+            X: Numpy array. The data to fit on.
+            augment: Boolean. Whether to fit on randomly augmented samples (based on the specifications defined in the ImageDataGenerator object).
+            rounds: Int. If `augment`, how many copies of the data to create, each with random augmentations.
+            seed: Int. **WARNING: This does not currently appear to be used** Random seed.
         '''
         X = np.copy(X)
         if augment:
