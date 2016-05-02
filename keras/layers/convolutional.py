@@ -223,7 +223,9 @@ class Convolution2D(Layer):
             If you don't specify anything, no activation is applied
             (ie. "linear" activation: a(x) = x).
         weights: list of numpy arrays to set as initial weights.
-        border_mode: 'valid' or 'same'.
+        border_mode: 'valid' or 'same'. See [TensorFlow doc](https://www.tensorflow.org/versions/r0.8/api_docs/python/nn.html#convolution) for more information on calculations; from [cs231n](http://cs231n.github.io/convolutional-networks/):
+            - same: "The aforementioned benefit of keeping the spatial sizes constant after CONV, doing this actually improves performance."
+            - valid: "If the CONV layers were to not zero-pad the inputs and only perform valid convolutions, then the size of the volumes would reduce by a small amount after each CONV, and the information at the borders would be “washed away” too quickly."
         subsample: tuple of length 2. Factor by which to subsample output.
             Also called strides elsewhere.
         W_regularizer: instance of [WeightRegularizer](../regularizers.md)
