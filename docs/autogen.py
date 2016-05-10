@@ -105,6 +105,7 @@ PAGES = [
             models.Sequential.predict_on_batch,
             models.Sequential.fit_generator,
             models.Sequential.evaluate_generator,
+            models.Sequential.predict_generator,
         ],
     },
     {
